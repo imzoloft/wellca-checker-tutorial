@@ -222,4 +222,3 @@ Enjoy coding!
     <img alt="GitHub" src="https://img.shields.io/github/license/imzoloft/wellca-checker-tutorial?color=000">
     <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/imzoloft/wellca-checker-tutorial?color=000">
 </div>
-```
