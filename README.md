@@ -41,24 +41,21 @@ I made an email checker on it for a tutorial.
 
 <h4>Tutorial</h4>
 
-You will need to first find a website, where you can signin or have an options where you forgot password.
+You will first need to identify a website where you can sign in or find an option for password recovery. For this example, let's use a well-known self-care website in Canada, such as <a src="https://well.ca/">Wellca</a>
 
-For this example I will be using a famous selfcare website in Canada <a>https://well.ca/</a>
+Next, open the network tab in your browser's developer tools and observe the requests made when you log in or initiate the password recovery process.
 
-You will have to open the network tab and do a request when you login or forgot email.
-<img src="https://cdn.discordapp.com/attachments/1065385280393203892/1207453583444803616/image.png?ex=65dfb3c7&is=65cd3ec7&hm=6bda300e5c3d12fe6129fa7a6653447832f1354ce8dbdefe6e3ca2919cffe472&" alt="network tab"/>
+<img src="https://cdn.discordapp.com/attachments/1065385280393203892/1207453583444803616/image.png?ex=65dfb3c7&is=65cd3ec7&hm=6bda300e5c3d12fe6129fa7a6653447832f1354ce8dbdefe6e3ca2919cffe472&" alt="network tab" width="500px"/>
 
-After that you will need to right click, copy value, copy as cURL.
+After that, right-click on the network request, select "Copy," and then choose "Copy as cURL."
 
-You should have a long blob. You can ask chatGPT to convert to this a golang request or whatever. There is also python cURL converter, etc.
-
-This is what I had
+You will obtain a lengthy cURL command as a string. You can request ChatGPT to assist you in converting this command into a Golang HTTP request or any other programming language. Additionally, there are online converters available for this purpose.
 
 ```go
 curl 'https://well.ca/ajax_index.php?main_page=password_forgotten&action=process' -X POST -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:122.0) Gecko/20100101 Firefox/122.0' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br' -H 'X-NewRelic-ID: VQ8BWFdTDBABXVlRAgcPUVM=' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' -H 'X-Requested-With: XMLHttpRequest' -H 'Origin: https://well.ca' -H 'Connection: keep-alive' -H 'Referer: https://well.ca/' -H 'Cookie: cookie_test=please_accept_for_session; bkd=62b39d507304fd8d55b95ba1f085a4bd; _gcl_au=1.1.1464452468.1707696512; well_id=eggjbfcad5gbmn1oi1dmbhmbg3' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: same-origin' -H 'TE: trailers' --data-raw 'email_address=test%40hotmail.com&g-recaptcha-response='
 ```
 
-Converted to golang
+Converted to golang and small adjustements in the logic
 
 ```go
 func Check(email string) bool {
@@ -125,8 +122,9 @@ func Check(email string) bool {
 }
 ```
 
-Once you are at this stage, you basically have a checker, you need to make it check email dynamically.
-This is usually done by reading a file and processing them via multi-threading.
+In the payload, I omitted g-recaptcha-response= as it appeared unnecessary after conducting some tests. This raises concerns about a potential security vulnerability, indicating a possible misconfiguration in the implementation of reCAPTCHA on the website.
+
+Once you reach this stage, you essentially have a checker that needs to dynamically verify emails. This is typically achieved by reading a file and processing them using multi-threading.
 
 ```go
 func ReadFile(fileName string) ([]string, error) {
@@ -198,11 +196,11 @@ func WriteToFile(fileName string, message string) error {
 }
 ```
 
-The rest of the code is mostly for the aesthetic and make something clear like taking input, text in color, clear console, display things.
+The remaining code primarily focuses on aesthetics, ensuring a clear and visually appealing layout. This includes features such as taking user input, displaying text in color, clearing the console, and presenting information in a well-organized manner.
 
-I hope this tutorial can help you, you can always talk to me via discord, telegram, etc. Everything is linked on my readme.
+I trust that this tutorial proves helpful. Feel free to reach out to me via Discord, Telegram, or any other linked communication channels mentioned in my readme.
 
-Have fun!
+Enjoy coding!
 
 ---
 
